@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Decomposer</title>
+</head>
+<body>
+    <header>
+        <h1>Decompositor de Chave de Documento Eletronico</h1>
+    </header>
+
+    <div class="container">
+        <label>Chave</label>
+        <input type="text" name="key" id="key" placeholder="Chave" required>
+
+        <button onclick="decompor()">Decompor</button><br><br>
+
+        <label>Chave decomposta</label>
+        <table>
+            <thead>
+                <tr>
+                    <th>Atributo</th>
+                    <th>Valor</th>
+                </tr>
+            </thed>
+            <tbody id="resultTable">
+                <tr>
+                    <td>cUF</td>
+                    <td id="cUF"></td>
+                </tr>
+                <tr>
+                    <td>AAMM</td>
+                    <td id="AAMM"></td>
+                </tr>
+                <tr>
+                    <td>CNPJ</td>
+                    <td id="CNPJ"></td>
+                </tr>
+                <tr>
+                    <td>mod</td>
+                    <td id="mod"></td>
+                </tr>
+                <tr>
+                    <td>serie</td>
+                    <td id="serie"></td>
+                </tr>
+                <tr>
+                    <td>nNF</td>
+                    <td id="nNF"></td>
+                </tr>
+                <tr>
+                    <td>tpEmis</td>
+                    <td id="tpEmis"></td>
+                </tr>
+                <tr>
+                    <td>cNF</td>
+                    <td id="cNF"></td>
+                </tr>
+                <tr>
+                    <td>cDV</td>
+                    <td id="cDV"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <footer>
+        <p>Desenvolvido por <a href=""> Gabriel Sousa</a></p>
+    </footer>  
+        
+
+    
+    <script src="script.js"></script>
+</body>
+</html>
