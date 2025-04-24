@@ -56,6 +56,8 @@ function decompor(){
         document.getElementById("cNF").innerHTML = cNF;
         document.getElementById("cDV").innerHTML = DV;
 
+        document.getElementById("resultados").style.display = "table";
+
     }
 }
 
