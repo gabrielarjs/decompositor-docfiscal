@@ -12,13 +12,11 @@
     </header>
 
     <div class="container">
-        <label>Chave</label>
         <input type="text" name="key" id="key" placeholder="Chave" required>
 
         <button onclick="decompor()">Decompor</button><br><br>
 
-        <label>Chave decomposta</label>
-        <table>
+        <table id="resultados">
             <thead>
                 <tr>
                     <th>Atributo</th>
@@ -27,15 +25,15 @@
             </thed>
             <tbody id="resultTable">
                 <tr>
-                    <td>UF</td>
+                    <td>UF de emissão</td>
                     <td id="cUF"></td>
                 </tr>
                 <tr>
-                    <td>Data de Emissão</td>
+                    <td>Data de emissão</td>
                     <td id="AAMM"></td>
                 </tr>
                 <tr>
-                    <td>CNPJ</td>
+                    <td>CNPJ do emitente</td>
                     <td id="CNPJ"></td>
                 </tr>
                 <tr>
@@ -51,15 +49,15 @@
                     <td id="nNF"></td>
                 </tr>
                 <tr>
-                    <td>Tipo Emissão</td>
+                    <td>Tipo de emissão</td>
                     <td id="tpEmis"></td>
                 </tr>
                 <tr>
-                    <td>cNF</td>
+                    <td>Código numérico</td>
                     <td id="cNF"></td>
                 </tr>
                 <tr>
-                    <td>Dígito Verificador</td>
+                    <td>Dígito verificador</td>
                     <td id="cDV"></td>
                 </tr>
             </tbody>

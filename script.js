@@ -56,6 +56,8 @@ function decompor(){
         document.getElementById("cNF").innerHTML = cNF;
         document.getElementById("cDV").innerHTML = DV;
 
+        document.getElementById("resultados").style.display = "table";
+
     }
 }
 
@@ -241,6 +243,8 @@ function convertMod(modelo){
             return '20 - Ordem de Coleta de Cargas';
         case '18':
             return '18 - Resumo de Movimento Diário';
+        case '58':
+            return '58 - Manifesto Eletrônico de Documentos Fiscais - MDF-e';
         default:
             return `${modelo}(Modelo desconhecido)`;
     }
