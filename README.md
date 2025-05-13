@@ -1,5 +1,5 @@
 # DECOMPOSER
-Essa aplicação tem como objetivo exibir algumas infomações de um documento documento fiscal com base na chave de acesso.
+Essa aplicação tem como objetivo exibir algumas infomações de um documento fiscal eletronico com base em sua chave de acesso.
 
 
 ## Como utilizar
