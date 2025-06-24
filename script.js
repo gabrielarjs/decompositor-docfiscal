@@ -1,3 +1,9 @@
+function removeMask() {
+    const key = getKey();
+    const keySemMascara = key.replace(/[^\d]/g, '');
+    document.getElementById("key").value = keySemMascara;
+}
+
 function validaKey(){
     const key = getKey();
     if(key.length === 44){
@@ -12,11 +18,10 @@ function getKey() {
     return key;
 }
 
-function teste(){
-    alert(getKey().length);
-}
 
 function decompor(){
+
+    removeMask();
 
     if(!validaKey()){
         alert("A chave deve ter 44 caracteres!");
