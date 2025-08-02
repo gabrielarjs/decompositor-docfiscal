@@ -1,4 +1,4 @@
-# DECOMPOSER
+# DECOMPOSITOR DOC FISCAL ELETRONICO
 Essa aplicação tem como objetivo exibir algumas infomações de um documento fiscal eletronico com base em sua chave de acesso.
 
 
@@ -11,9 +11,6 @@ Após clicar em decompor será exibido as informações do documento em fortato 
 
 ## Ultimas Atualizações
 
-- Altera o estilo do footer e adiciona link para o repositório no GitHub.
-- Altera a formatação do CNPJ adicionando o ponto e o traço.
-- Adiciona legenda para os campos UF, tipo de emissão e modelo.
-- Altera a formatação do campo data de emissão.
+- Verificação de digito verificador da chave de acesso
 
 

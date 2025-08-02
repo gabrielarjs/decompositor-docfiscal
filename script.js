@@ -7,15 +7,56 @@ function removeMask() {
 function validaKey(){
     const key = getKey();
     if(key.length === 44){
-        return true;
+
+        let arrayChave = new Array;
+
+        for(let i = 0; i < 43; i++){
+            const a = key.substring(i, i+1);
+            arrayChave.push(a);
+        }
+
+        let multiplicadores = new Array(43).fill(0);
+
+        let j = 2;
+
+        for(let i = 42; i >= 0; i--){
+            multiplicadores[i] = j;
+            j++;
+            if(j>9){
+                j=2;
+            }
+        }
+
+        let resultados = new Array;
+
+        for(let i = 0; i < 43; i++){
+            resultados[i] = arrayChave[i] * multiplicadores[i];
+        }
+
+        let soma = 0;
+
+        for(let i = 0; i < 43; i++){
+            soma = soma + resultados[i];
+        }
+
+        const dvEsperado = 11 - (soma % 11)
+
+        const dvReal =  key.substring(43, 44);
+
+        if(dvReal == dvEsperado){
+            return 'OK';
+        }else{
+            return 'Digito verificador inválido'
+        }
+
+        
     }else{
-        return false;
+        return 'A chave deve conter 44 dígitos';
     }
 }
 
 function getKey() {
-    const key = document.getElementById("key").value;
-    return key;
+     return document.getElementById("key").value;
 }
 
 
@@ -23,11 +64,13 @@ function decompor(){
 
     removeMask();
 
-    if(!validaKey()){
-        alert("A chave deve ter 44 caracteres!");
+    msgValidacao = validaKey();
+
+    if(msgValidacao != 'OK' ){
+        alert(msgValidacao);
         return;
     }
-    else{
+    else{ 
         const key = getKey();
 
         const cUF = key.substring(0, 2);
