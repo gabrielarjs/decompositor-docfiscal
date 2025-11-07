@@ -106,6 +106,9 @@ function decompor(){
 
         document.getElementById("resultados").style.display = "table";
 
+          const botao = document.getElementById("btnCopiar");
+          botao.style.display = "inline-block";
+
     }
 }
 
@@ -325,4 +328,12 @@ function formataCNPJ(cnpj) {
     return cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d)/, "$1.$2.$3/$4-$5");
 }
 
+function copiarResultado(){
+    const tabela = document.getElementById("resultTable");
 
+    const texto = tabela.innerText;
+
+    navigator.clipboard.writeText(texto)
+        .then(() => alert('Tabela copiada'))
+        .catch(err => console.error('Erro ao copiar: ',err));
+}

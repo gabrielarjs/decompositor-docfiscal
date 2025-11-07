@@ -6,6 +6,8 @@
     <meta name="google-site-verification" content="iEFrPnC8bFQbSCESttxV0vZNm7ZmnSnPJZcjogVQ_FQ" />
     <meta name="description" content="Ferramenta online gratuita para decompor a chave de acesso de documentos fiscais eletrônicos (NF-e, CT-e). Fácil, rápido e direto no navegador.">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+
     <title>Decompor Chave de Acesso Doc Eletronico| Ferramenta Gratuita Online </title>
 </head>
 <body>
@@ -17,7 +19,11 @@
 
         <input type="text" name="key" id="key" placeholder="Digite a chave de acesso" required>
 
-        <button onclick="decompor()">Decompor</button><br><br>
+        <button onclick="decompor()">Decompor</button>
+
+        <button onclick="copiarResultado()" id="btnCopiar">
+            <i class="fa-solid fa-copy"></i>
+        </button><br><br>
 
         <table id="resultados">
             <thead>
@@ -65,10 +71,15 @@
                 </tr>
             </tbody>
         </table>
+
+
     </div>
 
     <footer>
-        <p><a href="https://github.com/gabrielarjs" target="_blank">Gabriel Sousa</a>  - 2025 </p>
+        <p> <a href="https://creativecommons.org/licenses/by/4.0/deed.pt_BR" target="_blank" rel="license noopener"> Creative Commons Atribuição 4.0 Internacional (CC BY 4.0)<br>
+            <a href="https://github.com/gabrielarjs" target="_blank">Gabriel Sousa</a> - 2025
+        </p>
+            
     </footer>  
         
     <script src="script.js"></script>

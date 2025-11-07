@@ -16,7 +16,7 @@ header {
     color: white;
     padding: 15px 0;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 600;
 }
 
@@ -31,13 +31,16 @@ header {
     text-align: center;
 }
 
+#btnCopiar{
+    display: none;
+}
 
 
 input[type="text"] {
     flex: 1;
     border-radius: 8px;
     padding: 10px 12px;
-    width: 400px;
+    width: 60%;
     border: 1px solid #ccc;
     font-size: 1rem;
     transition: 0.2s;
@@ -107,4 +110,11 @@ footer a {
 
 footer a:hover {
     text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  input[type="text"] {
+    width: 80%;
+    margin: 20px;
+  }
 }

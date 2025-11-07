@@ -1,6 +1,5 @@
 # DECOMPOSITOR DOC FISCAL ELETRONICO
-Essa aplicação tem como objetivo exibir algumas infomações de um documento fiscal eletronico com base em sua chave de acesso.
-
+A chave de acesso do documento fiscal eletrônico (NFe, NFCe, CTe, MDFe) é composta por 44 caracteres que contém todas as informações do documento em um formato codificado. O Decompositor Doc Fiscal Eletrônico é uma aplicação web desenvolvida em JavaScript que permite aos usuários inserir a chave de acesso e obter uma decomposição detalhada das informações contidas nela.
 
 ## Como utilizar
 A ultização da aplicação é extremamente simples, basta inserir a chave de acesse do documento e clicar em decompor.
@@ -11,6 +10,5 @@ Após clicar em decompor será exibido as informações do documento em fortato 
 
 ## Ultimas Atualizações
 
-- Verificação de digito verificador da chave de acesso
-
-
+- Ajustes de responsividade para dispositivos móveis.
+- Adicionando botão de copiar para facilitar a cópia das informações exibidas.S
