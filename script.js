@@ -41,6 +41,8 @@ function validaKey(){
 
         const dvEsperado = 11 - (soma % 11)
 
+        console.log(dvEsperado);
+
         const dvReal =  key.substring(43, 44);
 
         if(dvReal == dvEsperado){
@@ -337,3 +339,12 @@ function copiarResultado(){
         .then(() => alert('Tabela copiada'))
         .catch(err => console.error('Erro ao copiar: ',err));
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const btnDecompor = document.getElementById("btnDecompor");
+    const btnCopiar = document.getElementById("btnCopiar");
+
+    if(btnCopiar) btnCopiar.addEventListener("click", copiarResultado);
+    if(btnDecompor) btnDecompor.addEventListener("click", decompor);
+
+})

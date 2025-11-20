@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Entenda como funciona a ferramenta de decomposição da chave de acesso de documentos fiscais eletrônicos (NF-e, CT-e).">
+    <link rel="stylesheet" href="style/sobre.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+    <title>Como Funciona | Decompor Chave de Acesso</title>
+</head>
+<body>
+    <header>
+        <h1>Como funciona a decomposição da chave de acesso</h1>
+    </header>
+
+    <div class="container">
+        <p>
+            A <strong>chave de acesso</strong> de um documento fiscal eletrônico (como a <strong>NF-e</strong> ou <strong>CT-e</strong>) é composta por <strong>44 dígitos numéricos</strong>.
+            Cada parte dessa sequência representa uma informação específica sobre o documento.
+        </p>
+
+        <h2>Estrutura da Chave de Acesso</h2>
+        <p>
+            A chave é dividida em campos fixos, conforme o padrão definido pela SEFAZ (Secretaria da Fazenda):
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Posição</th>
+                    <th>Campo</th>
+                    <th>Descrição</th>
+                    <th>Exemplo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1–2</td>
+                    <td>UF</td>
+                    <td>Código do estado de emissão</td>
+                    <td>35 (SP)</td>
+                </tr>
+                <tr>
+                    <td>3–6</td>
+                    <td>AAMM</td>
+                    <td>Ano e mês da emissão</td>
+                    <td>2501 → Jan/2025</td>
+                </tr>
+                <tr>
+                    <td>7–20</td>
+                    <td>CNPJ</td>
+                    <td>CNPJ do emitente</td>
+                    <td>12345678000195</td>
+                </tr>
+                <tr>
+                    <td>21–22</td>
+                    <td>Modelo</td>
+                    <td>Modelo do documento fiscal (ex: 55 para NF-e)</td>
+                    <td>55</td>
+                </tr>
+                <tr>
+                    <td>23–25</td>
+                    <td>Série</td>
+                    <td>Número da série do documento</td>
+                    <td>001</td>
+                </tr>
+                <tr>
+                    <td>26–34</td>
+                    <td>Número</td>
+                    <td>Número do documento fiscal</td>
+                    <td>123456789</td>
+                </tr>
+                <tr>
+                    <td>35</td>
+                    <td>Tipo de Emissão</td>
+                    <td>Indica o tipo de emissão (normal, contingência, etc.)</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>36–43</td>
+                    <td>Código Numérico</td>
+                    <td>Código aleatório gerado pelo emissor</td>
+                    <td>87654321</td>
+                </tr>
+                <tr>
+                    <td>44</td>
+                    <td>Dígito Verificador</td>
+                    <td>Valida a integridade da chave</td>
+                    <td>7</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Como a ferramenta funciona</h2>
+        <p>
+            Quando você digita a chave de 44 dígitos e clica em <strong>“Decompor”</strong>:
+        </p>
+        <ul>
+            <li>O JavaScript verifica se a chave contém 44 números válidos.</li>
+            <li>O código divide a string em partes, conforme a estrutura acima.</li>
+            <li>As informações são exibidas na tabela logo abaixo do campo de entrada.</li>
+            <li>Você pode copiar os resultados usando o botão <i class="fa-solid fa-copy"></i>.</li>
+        </ul>
+
+        <p>
+            Nenhum dado é enviado para servidores externos, todo o processamento ocorre <strong>diretamente no seu navegador</strong>, garantindo privacidade e segurança.
+        </p>
+
+        <a href="index.html" class="voltar"><i class="fa-solid fa-arrow-left"></i> Voltar para a ferramenta</a>
+    </div>
+
+    <footer>
+        <p>
+            <a href="sobre.html">Sobre</a>
+        </p>
+        <p class="licenca">
+        © 2025 Gabriel Sousa — Licença
+        <a href="https://creativecommons.org/licenses/by/4.0/deed.pt_BR" target="_blank">CC BY 4.0</a>
+        </p>
+
+    </footer>
+</body>
+</html>
