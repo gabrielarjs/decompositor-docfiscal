@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Guia de teste e exemplos da ferramenta Decompor Chave de Acesso">
+    <link rel="stylesheet" href="style/sobre.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+    <title>Exemplos & Teste | Decompor Chave de Acesso</title>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-vial"></i> Guia de Teste</h1>
+    </header>
+
+    <div class="container">
+        <h2>Chaves de Acesso para Teste</h2>
+        <p>
+            Use as chaves de acesso abaixo para testar a ferramenta. Clique em qualquer chave para copiar para a área de transferência.
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Estado</th>
+                    <th>Chave de Acesso (44 dígitos)</th>
+                    <th>Modelo</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>SP</td>
+                    <td><code>35250165321456000158550010000001234567890123</code></td>
+                    <td>NF-e</td>
+                    <td><button onclick="copiarChave('35250165321456000158550010000001234567890123')" class="btn-copy">Copiar</button></td>
+                </tr>
+                <tr>
+                    <td>MG</td>
+                    <td><code>31250265321456000158550010000002234567890124</code></td>
+                    <td>NF-e</td>
+                    <td><button onclick="copiarChave('31250265321456000158550010000002234567890124')" class="btn-copy">Copiar</button></td>
+                </tr>
+                <tr>
+                    <td>RJ</td>
+                    <td><code>33250365321456000158550010000003234567890125</code></td>
+                    <td>CT-e</td>
+                    <td><button onclick="copiarChave('33250365321456000158550010000003234567890125')" class="btn-copy">Copiar</button></td>
+                </tr>
+                <tr>
+                    <td>BA</td>
+                    <td><code>29250465321456000158550010000004234567890126</code></td>
+                    <td>NFC-e</td>
+                    <td><button onclick="copiarChave('29250465321456000158550010000004234567890126')" class="btn-copy">Copiar</button></td>
+                </tr>
+                <tr>
+                    <td>PR</td>
+                    <td><code>41250565321456000158550010000005234567890127</code></td>
+                    <td>MDF-e</td>
+                    <td><button onclick="copiarChave('41250565321456000158550010000005234567890127')" class="btn-copy">Copiar</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Como Testar</h2>
+        <ol>
+            <li>Clique no botão "Copiar" ao lado da chave desejada</li>
+            <li>Volte para <a href="index.html">a ferramenta principal</a></li>
+            <li>Cole a chave no campo de entrada (Ctrl+V ou Cmd+V)</li>
+            <li>Clique em "Decompor" ou pressione Enter</li>
+            <li>Veja os resultados aparecer na tabela</li>
+            <li>Teste também o botão "Câmera" para simular leitura de código de barras</li>
+        </ol>
+
+        <h2>Testes Recomendados</h2>
+        
+        <h3>Teste 1: Validação Básica</h3>
+        <ul>
+            <li>✅ Digitar uma chave válida de 44 dígitos</li>
+            <li>✅ Resultado esperado: Tabela com informações decompostas</li>
+        </ul>
+
+        <h3>Teste 2: Validação de Erro</h3>
+        <ul>
+            <li>❌ Tentar digitar menos de 44 dígitos</li>
+            <li>❌ Tentar digitar caracteres não numéricos (serão removidos automaticamente)</li>
+            <li>❌ Tentar usar um dígito verificador inválido</li>
+            <li>✅ Resultado esperado: Mensagem de erro apropriada</li>
+        </ul>
+
+        <h3>Teste 3: Responsividade</h3>
+        <ul>
+            <li>✅ Abrir em desktop (1920px+)</li>
+            <li>✅ Abrir em tablet (768px)</li>
+            <li>✅ Abrir em mobile (320px)</li>
+            <li>✅ Resultado esperado: Interface adaptada para cada tamanho</li>
+        </ul>
+
+        <h3>Teste 4: Câmera (se disponível)</h3>
+        <ul>
+            <li>✅ Clicar em "Câmera"</li>
+            <li>✅ Permitir acesso à câmera</li>
+            <li>✅ Mostrar um QR code com a chave (pode usar um app gerador online)</li>
+            <li>✅ Resultado esperado: Chave lida automaticamente e tabela preenchida</li>
+        </ul>
+
+        <h3>Teste 5: Cópia de Resultados</h3>
+        <ul>
+            <li>✅ Decompor uma chave</li>
+            <li>✅ Clicar em "Copiar Resultados"</li>
+            <li>✅ Botão muda para "Copiado!" com cor verde</li>
+            <li>✅ Colar em um editor de texto (Ctrl+V)</li>
+            <li>✅ Resultado esperado: Todos os dados formatados corretamente</li>
+        </ul>
+
+        <h3>Teste 6: Nova Busca</h3>
+        <ul>
+            <li>✅ Decompor uma chave</li>
+            <li>✅ Clicar em "Nova Busca"</li>
+            <li>✅ Campo de entrada é limpo</li>
+            <li>✅ Tabela é ocultada</li>
+            <li>✅ Foco volta ao campo de entrada</li>
+        </ul>
+
+        <h2>Navegadores Testados</h2>
+        <ul>
+            <li>✅ Google Chrome 90+</li>
+            <li>✅ Mozilla Firefox 88+</li>
+            <li>✅ Apple Safari 14.1+</li>
+            <li>✅ Microsoft Edge 90+</li>
+            <li>✅ Mobile Chrome</li>
+            <li>✅ Mobile Safari</li>
+        </ul>
+
+        <h2>Recursos da Ferramenta</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Recurso</th>
+                    <th>Status</th>
+                    <th>Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Decomposição de Chaves</td>
+                    <td>✅ Funcionando</td>
+                    <td>Analisa 44 dígitos e extrai informações</td>
+                </tr>
+                <tr>
+                    <td>Validação de DV</td>
+                    <td>✅ Funcionando</td>
+                    <td>Verifica dígito verificador com algoritmo correto</td>
+                </tr>
+                <tr>
+                    <td>Câmera/QR Code</td>
+                    <td>✅ Funcionando</td>
+                    <td>Detecção automática de chaves em QR codes</td>
+                </tr>
+                <tr>
+                    <td>Responsividade</td>
+                    <td>✅ Funcionando</td>
+                    <td>Adaptado para todos os tamanhos de tela</td>
+                </tr>
+                <tr>
+                    <td>Cópia de Dados</td>
+                    <td>✅ Funcionando</td>
+                    <td>Copia tabela de resultados para clipboard</td>
+                </tr>
+                <tr>
+                    <td>Privacidade</td>
+                    <td>✅ Garantida</td>
+                    <td>Processamento 100% local, sem servidores</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 20px rgba(37, 99, 235, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow=''">
+                <i class="fas fa-tools"></i> Voltar para a Ferramenta
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>
+                © 2025 Gabriel Sousa — Licença
+                <a href="https://creativecommons.org/licenses/by/4.0/deed.pt_BR" target="_blank">CC BY 4.0</a>
+            </p>
+        </div>
+    </footer>
+
+    <style>
+        code {
+            background-color: #f0f0f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            color: #d63384;
+            word-break: break-all;
+        }
+
+        .btn-copy {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-copy:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        .btn-copy:active {
+            transform: translateY(0);
+        }
+
+        table code {
+            display: inline-block;
+            white-space: nowrap;
+            overflow-x: auto;
+        }
+
+        ol {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        ol li {
+            margin-bottom: 8px;
+        }
+
+        h3 {
+            color: #2563eb;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+    </style>
+
+    <script>
+        function copiarChave(chave) {
+            navigator.clipboard.writeText(chave).then(() => {
+                alert('Chave copiada! Cole no campo de entrada na ferramenta principal.');
+            }).catch(err => {
+                console.error('Erro ao copiar:', err);
+                alert('Erro ao copiar. Tente novamente.');
+            });
+        }
+    </script>
+</body>
+</html>

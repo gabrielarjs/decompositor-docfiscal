@@ -1,13 +1,25 @@
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #10b981;
+    --accent-color: #f59e0b;
+    --danger-color: #ef4444;
+    --dark-color: #1f2937;
+    --light-color: #f3f4f6;
+    --border-color: #e5e7eb;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.15);
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Segoe UI", Roboto, sans-serif;
+    font-family: 'Inter', 'Segoe UI', Roboto, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 body {
-    background-color: #f5f6fa;
-    color: #333;
+    background: linear-gradient(135deg, var(--light-color) 0%, #e5e7eb 100%);
+    color: var(--dark-color);
     line-height: 1.6;
     display: flex;
     flex-direction: column;
@@ -16,88 +28,265 @@ body {
 
 
 header {
-    background-color: #333;
+    background: linear-gradient(135deg, var(--dark-color) 0%, #374151 100%);
     color: white;
-    padding: 15px 0;
+    padding: 30px 0;
     text-align: center;
-    font-size: 1.2rem;
-    font-weight: 600;
+    box-shadow: var(--shadow-lg);
 }
 
 header h1 {
-    font-size: 1.8rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
 }
-
 
 .container {
     flex: 1;
     max-width: 900px;
+    width: 90%;
     margin: 30px auto;
-    background: #fff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+}
+
+.container h2 {
+    color: var(--primary-color);
+    margin-top: 25px;
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 10px;
+}
+
+.container h2:first-child {
+    margin-top: 0;
 }
 
 .container p {
     margin-bottom: 15px;
     text-align: justify;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #555;
 }
 
+.container ul {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.container ul li {
+    margin-bottom: 10px;
+    line-height: 1.8;
+    color: #555;
+}
 
 input[type="text"] {
-    width: 400px;
-    max-width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
     font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 button {
-    background-color: #2d89ef;
-    color: #fff;
+    background-color: var(--primary-color);
+    color: white;
     border: none;
-    border-radius: 8px;
-    padding: 10px 16px;
+    border-radius: 10px;
+    padding: 12px 24px;
     font-size: 1rem;
-    margin-left: 5px;
+    font-weight: 600;
+    margin-left: 8px;
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 }
 
 button:hover {
-    background-color: #1a66d4;
+    background-color: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
 }
 
 #btnCopiar {
     display: none; 
-    background-color: #28a745;
+    background-color: var(--secondary-color);
 }
 
 #btnCopiar:hover {
-    background-color: #1f8e3d;
+    background-color: #059669;
 }
-
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     font-size: 0.95rem;
-    overflow-x: auto;
-    display: block; 
-    white-space: nowrap; 
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
 }
 
 th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
+    border: 1px solid var(--border-color);
+    padding: 14px 16px;
     text-align: left;
 }
 
 th {
+    background: linear-gradient(135deg, var(--dark-color) 0%, #374151 100%);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+tr:hover {
+    background-color: rgba(37, 99, 235, 0.05);
+    transition: background-color 0.3s ease;
+}
+
+strong {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+code {
     background-color: #f0f0f0;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Courier New', monospace;
+    color: #d63384;
+    font-size: 0.9em;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 500;
+}
+
+a:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+footer {
+    background: linear-gradient(135deg, var(--dark-color) 0%, #374151 100%);
+    color: white;
+    padding: 30px 0;
+    margin-top: 40px;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+footer p {
+    margin: 10px 0;
+    font-size: 0.9rem;
+    color: #d1d5db;
+}
+
+footer a {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+footer a:hover {
+    color: #fcd34d;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .container {
+        margin: 20px auto;
+        padding: 20px;
+        width: 95%;
+    }
+
+    .container h2 {
+        font-size: 1.5rem;
+    }
+
+    table {
+        font-size: 0.85rem;
+    }
+
+    th, td {
+        padding: 10px 12px;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    button {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+        margin-left: 0;
+        margin-top: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .container {
+        width: 95%;
+        margin: 15px auto;
+        padding: 15px;
+    }
+
+    th, td {
+        font-size: 0.75rem;
+        padding: 8px;
+    }
+
+    .container h2 {
+        font-size: 1.2rem;
+    }
+
+    .container p {
+        font-size: 0.9rem;
+    }
+}
 }
 
 tbody tr:nth-child(even) {

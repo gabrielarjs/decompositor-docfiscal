@@ -10,7 +10,7 @@
 </head>
 <body>
     <header>
-        <h1>Como funciona a decomposição da chave de acesso</h1>
+        <h1><i class="fas fa-book-open"></i> Como Funciona</h1>
     </header>
 
     <div class="container">
@@ -91,33 +91,51 @@
             </tbody>
         </table>
 
-        <h2>Como a ferramenta funciona</h2>
+        <h2>Como a Ferramenta Funciona</h2>
         <p>
-            Quando você digita a chave de 44 dígitos e clica em <strong>“Decompor”</strong>:
+            Quando você digita a chave de 44 dígitos e clica em <strong>"Decompor"</strong>:
         </p>
         <ul>
-            <li>O JavaScript verifica se a chave contém 44 números válidos.</li>
-            <li>O código divide a string em partes, conforme a estrutura acima.</li>
-            <li>As informações são exibidas na tabela logo abaixo do campo de entrada.</li>
-            <li>Você pode copiar os resultados usando o botão <i class="fa-solid fa-copy"></i>.</li>
+            <li><i class="fas fa-check"></i> O JavaScript verifica se a chave contém 44 números válidos.</li>
+            <li><i class="fas fa-scissors"></i> O código divide a string em partes, conforme a estrutura acima.</li>
+            <li><i class="fas fa-table"></i> As informações são exibidas na tabela logo abaixo do campo de entrada.</li>
+            <li><i class="fas fa-clipboard"></i> Você pode copiar os resultados usando o botão Copiar.</li>
+            <li><i class="fas fa-camera"></i> Use a câmera para capturar um código de barras automaticamente.</li>
         </ul>
 
+        <h2>Recursos de Segurança</h2>
         <p>
-            Nenhum dado é enviado para servidores externos, todo o processamento ocorre <strong>diretamente no seu navegador</strong>, garantindo privacidade e segurança.
+            <strong>Privacidade garantida:</strong> Nenhum dado é enviado para servidores externos. Todo o processamento ocorre <strong>diretamente no seu navegador</strong>, garantindo privacidade e segurança. Sua chave nunca deixa seu dispositivo.
         </p>
 
-        <a href="index.html" class="voltar"><i class="fa-solid fa-arrow-left"></i> Voltar para a ferramenta</a>
+        <h2>Leitura de Código de Barras</h2>
+        <p>
+            A ferramenta também suporta leitura de código de barras (QR codes) através da câmera do seu dispositivo. Basta clicar no botão <strong>Câmera</strong> e posicionar o código de barras na tela. A detecção é feita automaticamente e a chave é preenchida para decomposição imediata.
+        </p>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" style="display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 20px rgba(37, 99, 235, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow=''">
+                <i class="fas fa-arrow-left"></i> Voltar para a Ferramenta
+            </a>
+        </div>
     </div>
 
     <footer>
-        <p>
-            <a href="sobre.html">Sobre</a>
-        </p>
-        <p class="licenca">
-        © 2025 Gabriel Sousa — Licença
-        <a href="https://creativecommons.org/licenses/by/4.0/deed.pt_BR" target="_blank">CC BY 4.0</a>
-        </p>
-
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Links</h3>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li><a href="index.html">Ferramenta</a></li>
+                    <li><a href="teste.html">Testes & Exemplos</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <p class="licenca">
+                    © 2025 Gabriel Sousa — Licença
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.pt_BR" target="_blank">CC BY 4.0</a>
+                </p>
+            </div>
+        </div>
     </footer>
 </body>
 </html>
