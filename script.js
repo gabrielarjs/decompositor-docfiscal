@@ -1,24 +1,208 @@
+// ============= VARIÁVEIS GLOBAIS =============
+let cameraStream = null;
+let isScanning = false;
+
+// ============= FUNÇÕES DE CÂMERA E CÓDIGO DE BARRAS =============
+
+/**
+ * Inicia a câmera para leitura de código de barras
+ */
+async function iniciarCamera() {
+    const modal = document.getElementById('cameraModal');
+    const video = document.getElementById('cameraStream');
+    const status = document.getElementById('cameraStatus');
+
+    modal.classList.add('show');
+    status.textContent = 'Iniciando câmera...';
+    status.style.color = '#666';
+
+    try {
+        // Verifica se a API está disponível
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            throw new Error('Sua navegador não suporta acesso à câmera');
+        }
+
+        const constraints = {
+            video: {
+                facingMode: 'environment',
+                width: { ideal: 1280 },
+                height: { ideal: 720 }
+            },
+            audio: false
+        };
+
+        console.log('Solicitando acesso à câmera...');
+        cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
+        
+        // Configura o stream no elemento video
+        video.srcObject = cameraStream;
+        
+        // Força o autoplay do vídeo
+        video.onloadedmetadata = () => {
+            console.log('Vídeo carregado, iniciando reprodução...');
+            video.play().catch(err => {
+                console.error('Erro ao fazer play:', err);
+                status.textContent = 'Erro ao iniciar vídeo. Tente novamente.';
+                status.style.color = '#ef4444';
+            });
+        };
+
+        status.textContent = 'Câmera ativa. Posicione o código de barras na tela.';
+        status.style.color = '#10b981';
+        isScanning = true;
+
+        // Aguarda um pouco para o vídeo carregar
+        setTimeout(() => {
+            console.log('Iniciando detecção de código de barras...');
+            DetectorCodigoBarras();
+        }, 500);
+
+    } catch (err) {
+        console.error('Erro ao acessar câmera:', err);
+        status.textContent = 'Erro ao acessar câmera. Verifique as permissões.';
+        status.style.color = '#ef4444';
+
+        if (err.name === 'NotAllowedError') {
+            status.textContent = '❌ Permissão de câmera negada. Verifique as configurações do navegador.';
+        } else if (err.name === 'NotFoundError') {
+            status.textContent = '❌ Nenhuma câmera encontrada neste dispositivo.';
+        } else if (err.name === 'NotReadableError') {
+            status.textContent = '❌ Câmera em uso por outro programa. Feche-o e tente novamente.';
+        } else {
+            status.textContent = `❌ ${err.message}`;
+        }
+    }
+}
+
+/**
+ * Para a câmera e fecha o modal
+ */
+function fecharCamera() {
+    const modal = document.getElementById('cameraModal');
+    const video = document.getElementById('cameraStream');
+
+    if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream = null;
+    }
+
+    isScanning = false;
+    video.srcObject = null;
+    modal.classList.remove('show');
+}
+
+/**
+ * Detecção de código de barras usando jsQR
+ */
+function DetectorCodigoBarras() {
+    const video = document.getElementById('cameraStream');
+    const canvas = document.getElementById('canvas');
+    const status = document.getElementById('cameraStatus');
+    
+    if (!canvas || !status) {
+        console.error('Canvas ou status não encontrados');
+        return;
+    }
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+        console.error('Contexto 2D não disponível');
+        return;
+    }
+
+    function scan() {
+        if (!isScanning) return;
+
+        try {
+            // Verifica se o vídeo tem dimensões válidas
+            if (video.videoWidth <= 0 || video.videoHeight <= 0) {
+                console.log('Aguardando vídeo carregar...');
+                requestAnimationFrame(scan);
+                return;
+            }
+
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+
+                // Desenha o vídeo no canvas
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                // Obtém os dados da imagem
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                
+                // Verifica se jsQR está disponível
+                if (typeof jsQR === 'undefined') {
+                    console.error('jsQR não está carregado');
+                    status.textContent = 'Erro: biblioteca de QR code não carregou. Recarregue a página.';
+                    status.style.color = '#ef4444';
+                    return;
+                }
+
+                const code = jsQR(imageData.data, imageData.width, imageData.height, {
+                    inversionAttempts: 'dontInvert',
+                });
+
+                // Se encontrar um código de barras/QR code
+                if (code) {
+                    const codigoLido = code.data;
+                    console.log('Código QR detectado:', codigoLido);
+
+                    // Valida se é uma chave de acesso válida
+                    if (codigoLido.length === 44 && /^\d+$/.test(codigoLido)) {
+                        document.getElementById('key').value = codigoLido;
+                        status.textContent = '✓ Código lido com sucesso!';
+                        status.style.color = '#10b981';
+
+                        // Fecha a câmera após 1 segundo
+                        setTimeout(() => {
+                            fecharCamera();
+                            // Executa automaticamente a decomposição
+                            setTimeout(() => decompor(), 500);
+                        }, 1000);
+
+                        return;
+                    } else if (/^\d+$/.test(codigoLido)) {
+                        // Se encontrou números mas não é uma chave válida
+                        console.log(`Código encontrado com ${codigoLido.length} dígitos`);
+                        status.textContent = `Código encontrado: ${codigoLido.length} dígitos (precisa ser 44)`;
+                        status.style.color = '#f59e0b';
+                    }
+                }
+            }
+        } catch (err) {
+            console.error('Erro durante scan:', err);
+        }
+
+        requestAnimationFrame(scan);
+    }
+
+    console.log('Iniciando loop de scan...');
+    scan();
+}
+
+// ============= FUNÇÕES DE DECOMPOSIÇÃO =============
+
+/**
+ * Remove caracteres não numéricos da chave
+ */
 function removeMask() {
     const key = getKey();
     const keySemMascara = key.replace(/[^\d]/g, '');
     document.getElementById("key").value = keySemMascara;
 }
 
+/**
+ * Valida a chave de acesso
+ */
 function validaKey(){
     const key = getKey();
     if(key.length === 44){
 
-        let arrayChave = new Array;
-
-        for(let i = 0; i < 43; i++){
-            const a = key.substring(i, i+1);
-            arrayChave.push(a);
-        }
-
-        let multiplicadores = new Array(43).fill(0);
+        const arrayChave = key.split('').map(Number);
+        const multiplicadores = [];
 
         let j = 2;
-
         for(let i = 42; i >= 0; i--){
             multiplicadores[i] = j;
             j++;
@@ -27,38 +211,30 @@ function validaKey(){
             }
         }
 
-        let resultados = new Array;
-
-        for(let i = 0; i < 43; i++){
-            resultados[i] = arrayChave[i] * multiplicadores[i];
-        }
-
         let soma = 0;
-
         for(let i = 0; i < 43; i++){
-            soma = soma + resultados[i];
+            soma = soma + arrayChave[i] * multiplicadores[i];
         }
 
-        const dvEsperado = 11 - (soma % 11)
-
-        console.log(dvEsperado);
-
-        const dvReal =  key.substring(43, 44);
+        const dvEsperado = 11 - (soma % 11);
+        const dvReal =  parseInt(key.substring(43, 44));
 
         if(dvReal == dvEsperado){
             return 'OK';
         }else{
-            return 'Digito verificador inválido'
+            return 'Dígito verificador inválido'
         }
-
         
     }else{
         return 'A chave deve conter 44 dígitos';
     }
 }
 
+/**
+ * Obtém a chave do input
+ */
 function getKey() {
-     return document.getElementById("key").value;
+     return document.getElementById("key").value.trim();
 }
 
 
@@ -66,10 +242,10 @@ function decompor(){
 
     removeMask();
 
-    msgValidacao = validaKey();
+    const msgValidacao = validaKey();
 
     if(msgValidacao != 'OK' ){
-        alert(msgValidacao);
+        mostrarErro(msgValidacao);
         return;
     }
     else{ 
@@ -86,83 +262,53 @@ function decompor(){
         const DV = key.substring(43, 44);
         
 
-        console.log("cUF: " + cUF);
-        console.log("AAMM: " + AAMM);
-        console.log("CNPJ: " + CNPJ);
-        console.log("Modelo: " + modelo);
-        console.log("Série: " + serie);
-        console.log("Número: " + numero);
-        console.log("tpEmis: " + tpEmis);
-        console.log("cNF: " + cNF);
-        console.log("DV: " + DV);
+        document.getElementById("cUF").textContent = convertUF(cUF);
+        document.getElementById("AAMM").textContent = convertData(AAMM);
+        document.getElementById("CNPJ").textContent = formataCNPJ(CNPJ);
+        document.getElementById("mod").textContent = convertMod(modelo);
+        document.getElementById("serie").textContent = serie;
+        document.getElementById("nNF").textContent = numero;
+        document.getElementById("tpEmis").textContent = convertTpEmis(tpEmis);
+        document.getElementById("cNF").textContent = cNF;
+        document.getElementById("cDV").textContent = DV;
 
-        document.getElementById("cUF").innerHTML = convertUF(cUF);
-        document.getElementById("AAMM").innerHTML = convertData(AAMM) ;
-        document.getElementById("CNPJ").innerHTML = formataCNPJ(CNPJ);
-        document.getElementById("mod").innerHTML = convertMod(modelo);
-        document.getElementById("serie").innerHTML = serie;
-        document.getElementById("nNF").innerHTML = numero;
-        document.getElementById("tpEmis").innerHTML = convertTpEmis(tpEmis);
-        document.getElementById("cNF").innerHTML = cNF;
-        document.getElementById("cDV").innerHTML = DV;
+        document.getElementById("resultados").classList.add('show');
+        document.getElementById("resultActions").classList.add('show');
 
-        document.getElementById("resultados").style.display = "table";
-
-          const botao = document.getElementById("btnCopiar");
-          botao.style.display = "inline-block";
-
+        setTimeout(() => {
+            document.getElementById("resultados").scrollIntoView({ behavior: 'smooth' });
+        }, 100);
     }
 }
 
-function convertData(AAMM) {
-    let mensagem = "";
-    const ano = AAMM.substring(0, 2);
+/**
+ * Mostra mensagem de erro
+ */
+function mostrarErro(mensagem) {
+    alert('❌ ' + mensagem);
+}
 
+function convertData(AAMM) {
+    const meses = {
+        '01': 'Janeiro',
+        '02': 'Fevereiro',
+        '03': 'Março',
+        '04': 'Abril',
+        '05': 'Maio',
+        '06': 'Junho',
+        '07': 'Julho',
+        '08': 'Agosto',
+        '09': 'Setembro',
+        '10': 'Outubro',
+        '11': 'Novembro',
+        '12': 'Dezembro'
+    };
+
+    const ano = AAMM.substring(0, 2);
     const mes = AAMM.substring(2, 4);
 
-    if(mes == '01'){
-        mensagem += "Janeiro";
-    }
-    else if(mes == '02'){
-        mensagem += "Fevereiro";
-    }
-    else if(mes == '03'){
-        mensagem += "Março";
-    }
-    else if(mes == '04'){
-        mensagem += "Abril";
-    }
-    else if(mes == '05'){
-        mensagem += "Maio";
-    }
-    else if(mes == '06'){
-        mensagem += "Junho";
-    }
-    else if(mes == '07'){
-        mensagem += "Julho";
-    }
-    else if(mes == '08'){
-        mensagem += "Agosto";
-    }
-    else if(mes == '09'){
-        mensagem += "Setembro";
-    }
-    else if(mes == '10'){
-        mensagem += "Outubro";
-    }
-    else if(mes == '11'){
-        mensagem += "Novembro";
-    }
-    else if(mes == '12'){
-        mensagem += "Dezembro";
-    }
-    else{
-        mensagem += "Data inválida";
-    }
-
-    mensagem += " de 20" + ano;
-
-    return mensagem;
+    const nomeMes = meses[mes] || 'Data inválida';
+    return `${nomeMes} de 20${ano}`;
 }
 
 function convertUF(cUF){
@@ -299,12 +445,11 @@ function convertMod(modelo){
         case '58':
             return '58 - Manifesto Eletrônico de Documentos Fiscais - MDF-e';
         default:
-            return `${modelo}(Modelo desconhecido)`;
+            return `${modelo} - Modelo desconhecido`;
     }
 }
 
 function convertTpEmis(tpEmis){
-
     switch (tpEmis) {
         case '1':
             return '1 - Emissão normal';
@@ -321,30 +466,81 @@ function convertTpEmis(tpEmis){
         case '7':
             return '7 - Contingência SVC-RS';
         default:
-            return `${tpEmis}(Tipo de Emissão desconhecido)`;
+            return `${tpEmis} - Tipo de emissão desconhecido`;
     }
-
 }
 
 function formataCNPJ(cnpj) {
-    return cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d)/, "$1.$2.$3/$4-$5");
+    return cnpj.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
 }
 
 function copiarResultado(){
     const tabela = document.getElementById("resultTable");
-
-    const texto = tabela.innerText;
+    const texto = Array.from(tabela.rows)
+        .map(row => {
+            const cells = row.cells;
+            const label = cells[0].textContent.replace(/^\s+|\s+$/g, '').split('\n')[0];
+            const valor = cells[1].textContent;
+            return `${label}: ${valor}`;
+        })
+        .join('\n');
 
     navigator.clipboard.writeText(texto)
-        .then(() => alert('Tabela copiada'))
-        .catch(err => console.error('Erro ao copiar: ',err));
+        .then(() => {
+            const btn = document.getElementById('btnCopiar');
+            const textoOriginal = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+            btn.style.backgroundColor = '#10b981';
+
+            setTimeout(() => {
+                btn.innerHTML = textoOriginal;
+                btn.style.backgroundColor = '';
+            }, 2000);
+        })
+        .catch(err => console.error('Erro ao copiar:', err));
 }
+
+function novaRejta() {
+    document.getElementById('key').value = '';
+    document.getElementById('resultados').classList.remove('show');
+    document.getElementById('resultActions').classList.remove('show');
+    document.getElementById('key').focus();
+}
+
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============= EVENT LISTENERS =============
 
 document.addEventListener("DOMContentLoaded", () => {
     const btnDecompor = document.getElementById("btnDecompor");
+    const btnCamera = document.getElementById("btnCamera");
     const btnCopiar = document.getElementById("btnCopiar");
+    const btnNova = document.getElementById("btnNova");
+    const cameraModal = document.getElementById('cameraModal');
+    const btnClosCamera = document.getElementById('btnClosCamera');
+    const closeBtn = document.querySelector('.close');
+    const keyInput = document.getElementById('key');
 
-    if(btnCopiar) btnCopiar.addEventListener("click", copiarResultado);
     if(btnDecompor) btnDecompor.addEventListener("click", decompor);
+    if(btnCamera) btnCamera.addEventListener("click", iniciarCamera);
+    if(btnCopiar) btnCopiar.addEventListener("click", copiarResultado);
+    if(btnNova) btnNova.addEventListener("click", novaRejta);
+    if(btnClosCamera) btnClosCamera.addEventListener("click", fecharCamera);
+    if(closeBtn) closeBtn.addEventListener("click", fecharCamera);
+    
+    if(cameraModal) {
+        cameraModal.addEventListener('click', (e) => {
+            if (e.target === cameraModal) fecharCamera();
+        });
+    }
 
-})
+    if(keyInput) {
+        keyInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') decompor();
+        });
+    }
+
+    if(keyInput) keyInput.focus();
+});
